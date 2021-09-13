@@ -1,0 +1,129 @@
+esphome:
+  name: ir_transmitter
+  platform: ESP8266
+  board: d1_mini
+  
+web_server:
+  port: 80
+
+wifi:
+  fast_connect: true
+  networks:
+  - ssid: "YOUR-SSID"
+    password: YOUR-PASSWORD
+    hidden: true
+    manual_ip:
+      # Set this to the IP of the ESP
+      static_ip: x.x.x.x
+      # Set this to the IP address of the router. Often ends with .1
+      gateway: x.x.x.1
+    # The subnet of the network. 255.255.255.0 works for most home networks.
+      subnet: 255.255.255.0
+
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "IR Remote Fallback Hotspot"
+    password: "AP-PASSWORD"
+
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "0301"
+
+ota:
+  password: "0301"
+
+
+  
+remote_transmitter:
+  pin: D6
+  carrier_duty_percent: 50%
+
+# Individual switches
+switch:
+
+  - platform: template
+    name: "Bedroom TV Power Toggle"
+    optimistic: True
+    assumed_state: True
+    turn_on_action:
+      remote_transmitter.transmit_lg:
+        data: 0x20DF10EF
+        nbits: 32
+    turn_off_action:
+      remote_transmitter.transmit_lg:
+        data: 0x20DFA35C
+        nbits: 32
+ 
+
+  - platform: template
+    name: "Bedroom Vol +"
+    turn_on_action:
+      remote_transmitter.transmit_lg:
+        data: 0x20DF40BF
+        nbits: 32
+        
+
+  - platform: template
+    name: "Bedroom Vol -"
+    turn_on_action:
+      remote_transmitter.transmit_lg:
+        data: 0x20DFC03F
+        nbits: 32
+        
+  - platform: template
+    name: "Mute"
+    optimistic: True
+    assumed_state: True
+    turn_on_action:
+      remote_transmitter.transmit_lg:
+        data: 0x20DF906F
+        nbits: 32
+        
+  - platform: template
+    name: "Menu"
+    turn_on_action:
+      remote_transmitter.transmit_lg:
+        data: 0x20DFC23D
+        nbits: 32
+        
+  - platform: template
+    name: "Left"
+    turn_on_action:
+      remote_transmitter.transmit_lg:
+        data: 0x20DFE01F
+        nbits: 32
+        
+  - platform: template
+    name: "Right"
+    turn_on_action:
+      remote_transmitter.transmit_lg:
+        data: 0x20DF609F
+        nbits: 32
+        
+  - platform: template
+    name: "Up"
+    turn_on_action:
+      remote_transmitter.transmit_lg:
+        data: 0x20DF02FD
+        nbits: 32
+        
+  - platform: template
+    name: "Down"
+    turn_on_action:
+      remote_transmitter.transmit_lg:
+        data: 0x20DF827D
+        nbits: 32
+        
+  - platform: template
+    name: "OK"
+    turn_on_action:
+      remote_transmitter.transmit_lg:
+        data: 0x20DF22DD
+        nbits: 32
