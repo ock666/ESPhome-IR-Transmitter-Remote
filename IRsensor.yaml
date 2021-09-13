@@ -1,0 +1,46 @@
+esphome:
+  name: irsensor
+  platform: ESP8266
+  board: nodemcuv2
+  
+web_server:
+  port: 80
+
+wifi:
+  fast_connect: true
+  networks:
+  - ssid: "YOUR SSID"
+    password: YOUR-PASSWORD
+    hidden: true
+    manual_ip:
+      # Set this to the IP of the ESP
+      static_ip: x.x.x.x
+      # Set this to the IP address of the router. Often ends with .1
+      gateway: x.x.x.1
+    # The subnet of the network. 255.255.255.0 works for most home networks.
+      subnet: 255.255.255.0
+
+  ap:
+    ssid: "IR Sensor Fallback Hotspot"
+    password: "frerere433^&"
+
+captive_portal:
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "0301"
+
+ota:
+  password: "0301"
+
+
+   
+remote_receiver:
+  pin:
+    number: D1
+    inverted: true
+    mode: INPUT_PULLUP
+  dump: all
